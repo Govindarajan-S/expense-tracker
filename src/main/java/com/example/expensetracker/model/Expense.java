@@ -13,13 +13,13 @@ public class Expense {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long expenseId;
-	
+
 	private Double expenseAmount;
-	
+
 	private String description;
-	
+
 	private String notes;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
@@ -54,6 +54,14 @@ public class Expense {
 
 	public void setNotes(String notes) {
 		this.notes = notes;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }

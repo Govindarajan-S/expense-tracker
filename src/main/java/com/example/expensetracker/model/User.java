@@ -13,19 +13,19 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class User {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long userId;
-	
+
 	private String firstName;
-	
+
 	private String lastName;
-	
+
 	private LocalDate dateOfBirth;
-	
+
 	private String mailId;
-	
+
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
 	private Set<Expense> expenses = new HashSet<>();
 
@@ -68,5 +68,13 @@ public class User {
 	public void setMailId(String mailId) {
 		this.mailId = mailId;
 	}
-	
+
+	public Set<Expense> getExpenses() {
+		return expenses;
+	}
+
+	public void setExpenses(Set<Expense> expenses) {
+		this.expenses = expenses;
+	}
+
 }
