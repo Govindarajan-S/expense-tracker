@@ -1,1 +1,2 @@
 INSERT INTO USER (FIRST_NAME, LAST_NAME, MAIL_ID) VALUES ('Govindarajan', 'Sivaraj', 'govind@example.com');
+INSERT INTO EXPENSE (EXPENSE_AMOUNT, DESCRIPTION, NOTES, USER_ID) VALUES ('200', 'Grocery', 'Potatoe, Garlic, Chillies', '1');

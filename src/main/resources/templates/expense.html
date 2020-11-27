@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Expense Page</title>
+</head>
+<body>
+	<table>
+		<thead>
+			<tr>
+				<td>ID</td>
+				<td>Amount</td>
+				<td>Description</td>
+				<td>Notes</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="expense : ${expenses}">
+				<td th:text="${expense.expenseId}"></td>
+				<td th:text="${expense.expenseAmount}"></td>
+				<td th:text="${expense.description}"></td>
+				<td th:text="${expense.notes}"></td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>
