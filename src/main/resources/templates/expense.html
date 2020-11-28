@@ -20,6 +20,10 @@
 				<td th:text="${expense.expenseAmount}"></td>
 				<td th:text="${expense.description}"></td>
 				<td th:text="${expense.notes}"></td>
+				<td>
+					<a href="#" th:href="@{/users/{id}/expense/{expenseId}/edit(id=${userId},expenseId=${expense.expenseId})}">Edit</a>
+					<a href="#" th:href="@{/users/{id}/expense/{expenseId}/delete(id=${userId},expenseId=${expense.expenseId})}">Delete</a>
+				</td>
 			</tr>
 		</tbody>
 	</table>
