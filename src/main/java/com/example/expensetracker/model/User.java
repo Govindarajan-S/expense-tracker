@@ -77,4 +77,7 @@ public class User {
 		this.expenses = expenses;
 	}
 
+	public void deleteExpense(Expense expense) {
+		this.expenses.remove(expense);
+	}
 }

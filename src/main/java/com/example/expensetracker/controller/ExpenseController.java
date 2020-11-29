@@ -12,24 +12,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.expensetracker.model.Expense;
 import com.example.expensetracker.model.User;
-import com.example.expensetracker.repository.ExpenseRepository;
-import com.example.expensetracker.repository.UserRepository;
+import com.example.expensetracker.service.ExpenseService;
+import com.example.expensetracker.service.UserService;
 
 @Controller
 public class ExpenseController {
 
-	private final ExpenseRepository expenseRepository;
+	private final ExpenseService expenseService;
 
-	private final UserRepository userRepository;
+	private final UserService userService;
 
-	public ExpenseController(ExpenseRepository expenseRepository, UserRepository userRepository) {
-		this.expenseRepository = expenseRepository;
-		this.userRepository = userRepository;
+	public ExpenseController(ExpenseService expenseService, UserService userService) {
+		this.expenseService = expenseService;
+		this.userService = userService;
 	}
 
 	@RequestMapping({ "/users/{id}/expense" })
 	public String getExpenses(@PathVariable Long id, Model model) {
-		model.addAttribute("expenses", expenseRepository.findByUserUserId(id).orElse(null));
+		model.addAttribute("expenses", userService.findById(id).getExpenses());
 		model.addAttribute("userId", id);
 		return "expense";
 	}
@@ -45,11 +45,11 @@ public class ExpenseController {
 	@PostMapping
 	@RequestMapping({ "/users/{id}/expense/save" })
 	public String saveExpense(@PathVariable Long id, @ModelAttribute Expense expense) {
-		User user = userRepository.findById(id).get();
+		User user = userService.findById(id);
 		expense.setUser(user);
-		expenseRepository.save(expense);
+		expenseService.save(expense);
 		user.getExpenses().add(expense);
-		userRepository.save(user);
+		userService.save(user);
 		return "redirect:/users/{id}/expense";
 	}
 
@@ -57,23 +57,23 @@ public class ExpenseController {
 	@RequestMapping({ "/users/{id}/expense/{expenseId}/edit" })
 	public String getExpenseUpdatePage(@PathVariable Long id, @PathVariable Long expenseId, Model model) {
 		model.addAttribute("userId", id);
-		model.addAttribute("expense", expenseRepository.findById(expenseId).get());
+		model.addAttribute("expense", expenseService.findById(expenseId));
 		return "updateExpense";
 	}
 
 	@PutMapping
 	@RequestMapping({ "/users/{id}/expense/{expenseId}/save" })
 	public String updateExpense(@PathVariable Long id, @PathVariable Long expenseId, Expense expense) {
-		expenseRepository.save(expense);
+		expenseService.save(expense);
 		return "redirect:/users/{id}/expense";
 	}
 
 	@DeleteMapping
 	@RequestMapping({ "/users/{id}/expense/{expenseId}/delete" })
 	public String doDeleteExpense(@PathVariable Long id, @PathVariable Long expenseId) {
-		User user = userRepository.findById(id).get();
-		user.getExpenses().remove(expenseRepository.findById(expenseId).get());
-		expenseRepository.deleteById(expenseId);
+		User user = userService.findById(id);
+		user.deleteExpense(expenseService.findById(expenseId));
+		expenseService.deleteById(expenseId);
 		return "redirect:/users/{id}/expense";
 	}
 }
