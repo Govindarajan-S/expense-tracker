@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -32,12 +33,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		final String authenticationHeader = request.getHeader("Authorization");
+		final Cookie[] cookies = request.getCookies();
 		String username = null;
 		String jwtToken = null;
-		if (authenticationHeader != null && authenticationHeader.startsWith("Bearer ")) {
-			jwtToken = authenticationHeader.substring(7);
-			username = jwtTokenUtil.extractUsername(jwtToken);
+		if (cookies != null && cookies.length > 0) {
+			for (int i = 0; i < cookies.length; i++) {
+				if (cookies[i].getName().equals("token")) {
+					jwtToken = cookies[i].getValue();
+					username = jwtTokenUtil.extractUsername(jwtToken);
+				}
+			}
 		}
 		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 			UserDetails userDetails = userDetailsService.loadUserByUsername(username);
