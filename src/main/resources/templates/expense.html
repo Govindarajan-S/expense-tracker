@@ -10,6 +10,7 @@
 			<tr>
 				<td>ID</td>
 				<td>Amount</td>
+				<td>Date</td>
 				<td>Description</td>
 				<td>Notes</td>
 			</tr>
@@ -18,6 +19,7 @@
 			<tr th:each="expense : ${expenses}">
 				<td th:text="${expense.expenseId}"></td>
 				<td th:text="${expense.expenseAmount}"></td>
+				<td th:text="${#temporals.format(expense.dateOfExpense, 'dd-MM-yyyy')}"></td>
 				<td th:text="${expense.description}"></td>
 				<td th:text="${expense.notes}"></td>
 				<td>

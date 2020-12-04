@@ -9,6 +9,8 @@
 		<input type="hidden" th:field="*{user.userId}" th:value="${userId}" />
 		<label for="amount">Amount</label>
 		<input type="number" id="amount" placeholder="Enter Amount" th:field="*{expenseAmount}"/>
+		<label for="dateOfExpense">Date</label>
+		<input type="date" id="dateOfExpense" th:field="*{dateOfExpense}" th:value="${#temporals.format(expense.dateOfExpense, 'dd-MM-yyyy')}" />
 		<label for="description">Description</label>
 		<input type="text" id="description" placeholder="Enter Description" th:field="*{description}" />
 		<label for="notes">Notes</label>

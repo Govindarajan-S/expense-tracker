@@ -1,11 +1,16 @@
 package com.example.expensetracker.model;
 
+import java.time.LocalDate;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 @Entity
 public class Expense {
@@ -19,6 +24,9 @@ public class Expense {
 	private String description;
 
 	private String notes;
+
+	@DateTimeFormat(iso = ISO.DATE)
+	private LocalDate dateOfExpense;
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
@@ -62,6 +70,14 @@ public class Expense {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public LocalDate getDateOfExpense() {
+		return dateOfExpense;
+	}
+
+	public void setDateOfExpense(LocalDate dateOfExpense) {
+		this.dateOfExpense = dateOfExpense;
 	}
 
 }
