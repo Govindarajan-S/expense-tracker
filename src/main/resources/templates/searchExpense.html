@@ -5,10 +5,6 @@
 <title>Expense Page</title>
 </head>
 <body>
-	<form action="#" th:action="@{/users/{id}/expense/search(id=${userId}, description=${description})}" method="get">	
-		<input type="text" id="description" placeholder="Search" th:name="description" />
-		<input type="submit" />
-	</form>
 	<table>
 		<thead>
 			<tr>
@@ -33,6 +29,5 @@
 			</tr>
 		</tbody>
 	</table>
-	<a href="#" th:href="@{/users/{id}/expense/create(id=${userId})}">Create Expense</a>
 </body>
 </html>

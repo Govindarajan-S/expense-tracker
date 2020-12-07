@@ -1,6 +1,8 @@
 package com.example.expensetracker.service.jpa;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
@@ -33,6 +35,16 @@ public class ExpenseServiceImpl implements ExpenseService {
 		} else {
 			throw new RuntimeException("Expense is not present");
 		}
+	}
+
+	@Override
+	public List<Expense> findByDescription(String description) {
+		List<Expense> expenseList = new ArrayList<>();
+		List<Expense> searchList = new ArrayList<>();
+		expenseRepository.findAll().forEach(expenseList::add);
+		expenseList.stream().filter(expense -> expense.getDescription().startsWith(description))
+				.forEach(searchList::add);
+		return searchList;
 	}
 
 	@Override
