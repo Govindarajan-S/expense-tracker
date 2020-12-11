@@ -1,10 +1,13 @@
 package com.example.expensetracker.service.jpa;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Service;
 
 import com.example.expensetracker.model.Expense;
@@ -16,8 +19,11 @@ public class ExpenseServiceImpl implements ExpenseService {
 
 	private final ExpenseRepository expenseRepository;
 
-	public ExpenseServiceImpl(ExpenseRepository expenseRepository) {
+	private final SessionFactory sessionFactory;
+
+	public ExpenseServiceImpl(ExpenseRepository expenseRepository, SessionFactory sessionFactory) {
 		this.expenseRepository = expenseRepository;
+		this.sessionFactory = sessionFactory;
 	}
 
 	@Override
@@ -70,6 +76,20 @@ public class ExpenseServiceImpl implements ExpenseService {
 	@Override
 	public void deleteAll() {
 		expenseRepository.deleteAll();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Iterable<Expense> getExpenseBetween(LocalDate fromDate, LocalDate toDate) {
+		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
+
+		List<Expense> expenseBetweenFromDateAndToDate = session
+				.createQuery("from Expense where dateOfExpense between :fromDate and :toDate")
+				.setParameter("fromDate", fromDate).setParameter("toDate", toDate).list();
+		session.getTransaction().commit();
+		session.close();
+		return expenseBetweenFromDateAndToDate;
 	}
 
 }

@@ -1,5 +1,9 @@
 package com.example.expensetracker.controller;
 
+import java.time.LocalDate;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -81,6 +85,17 @@ public class ExpenseController {
 	@RequestMapping({ "/users/{id}/expense/search" })
 	public String searchExpense(@PathVariable Long id, @RequestParam("description") String description, Model model) {
 		model.addAttribute("expenses", expenseService.findByDescription(description));
+		model.addAttribute("userId", id);
+		return "searchExpense";
+	}
+
+	@GetMapping
+	@RequestMapping({ "/users/{id}/expense/filter" })
+	public String searchExpense(@PathVariable Long id,
+			@RequestParam("fromDate") @DateTimeFormat(iso = ISO.DATE) LocalDate fromDate,
+			@RequestParam("toDate") @DateTimeFormat(iso = ISO.DATE) LocalDate toDate, Model model) {
+		model.addAttribute("expenses", expenseService.getExpenseBetween(fromDate, toDate));
+		model.addAttribute("userId", id);
 		return "searchExpense";
 	}
 }

@@ -9,6 +9,11 @@
 		<input type="text" id="description" placeholder="Search" th:name="description" />
 		<input type="submit" />
 	</form>
+	<form action="#" th:action="@{/users/{id}/expense/filter(id=${userId}, fromDate=${fromDate}, toDate=${toDate})}" method="get">	
+		<input type="date" id="fromDate" th:name="fromDate" th:value="${#temporals.format(fromDate, 'dd-MM-yyyy')}" />
+		<input type="date" id="toDate" th:name="toDate" th:value="${#temporals.format(toDate, 'dd-MM-yyyy')}" />
+		<input type="submit" />
+	</form>
 	<table>
 		<thead>
 			<tr>
