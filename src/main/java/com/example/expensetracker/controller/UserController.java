@@ -15,7 +15,7 @@ public class UserController {
 		this.userRepository = userRepository;
 	}
 
-	@RequestMapping({ "", "/", "/users", "/users.html" })
+	@RequestMapping({ "/users", "/users.html" })
 	public String getUsers(Model model) {
 		model.addAttribute("users", userRepository.findAll());
 		return "users";

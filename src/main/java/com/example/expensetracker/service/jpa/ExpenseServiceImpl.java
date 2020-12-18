@@ -87,9 +87,60 @@ public class ExpenseServiceImpl implements ExpenseService {
 		List<Expense> expenseBetweenFromDateAndToDate = session
 				.createQuery("from Expense where dateOfExpense between :fromDate and :toDate")
 				.setParameter("fromDate", fromDate).setParameter("toDate", toDate).list();
+
 		session.getTransaction().commit();
 		session.close();
+
 		return expenseBetweenFromDateAndToDate;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Double getCurrentMonthExpense() {
+		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
+
+		LocalDate today = LocalDate.now();
+		LocalDate thisMonth = LocalDate.now().minusMonths(1);
+
+		List<Expense> currentMonthExpenseList = session
+				.createQuery("from Expense where dateOfExpense between :thisMonth and :today")
+				.setParameter("thisMonth", thisMonth).setParameter("today", today).list();
+
+		Double currentMonthExpense = getCumulativeExpense(currentMonthExpenseList);
+
+		session.getTransaction().commit();
+		session.close();
+
+		return currentMonthExpense;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Double getCurrentWeekExpense() {
+		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
+
+		LocalDate today = LocalDate.now();
+		LocalDate thisWeek = LocalDate.now().minusWeeks(1);
+
+		List<Expense> currentWeekExpenseList = session
+				.createQuery("from Expense where dateOfExpense between :thisWeek and :today")
+				.setParameter("thisWeek", thisWeek).setParameter("today", today).list();
+
+		Double currentWeekExpense = getCumulativeExpense(currentWeekExpenseList);
+
+		session.getTransaction().commit();
+		session.close();
+
+		return currentWeekExpense;
+	}
+
+	private Double getCumulativeExpense(List<Expense> expenseList) {
+		if (expenseList.isEmpty()) {
+			return Double.valueOf(0);
+		}
+		return expenseList.stream().mapToDouble(expense -> expense.getExpenseAmount()).sum();
 	}
 
 }

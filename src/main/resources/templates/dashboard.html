@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Expense Dashboard</title>
+</head>
+<body>
+	<nav>
+		<ul>
+			<li>Dashboard</li>
+			<li>Search</li>
+		</ul>
+	</nav>
+	<div id="current-week-expense">
+		<p>Current Week Expense</p>
+		<p th:text="${currentWeekExpense}"></p>
+	</div>
+	<div id="current-week-expense">
+		<p>Current Month Expense</p>
+		<p th:text="${currentMonthExpense}"></p>
+	</div>	
+</body>
+</html>

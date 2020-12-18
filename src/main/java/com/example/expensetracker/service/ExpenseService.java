@@ -10,4 +10,8 @@ public interface ExpenseService extends CrudService<Expense, Long> {
 
 	Iterable<Expense> getExpenseBetween(LocalDate fromDate, LocalDate toDate);
 
+	Double getCurrentMonthExpense();
+
+	Double getCurrentWeekExpense();
+
 }
