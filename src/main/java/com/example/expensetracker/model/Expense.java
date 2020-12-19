@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -31,6 +32,10 @@ public class Expense {
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
+
+	@OneToOne
+	@JoinColumn(name = "category_id")
+	private Category category;
 
 	public Long getExpenseId() {
 		return expenseId;
